@@ -1,0 +1,5 @@
+# Unwanted things in my tidy GitHub
+
+.env
+__pycache__/
+.venv
