@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyAI - Your AI-Powered Learning Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>StudyAI</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active" data-section="home">Home</a>
+                <a href="#youtube" class="nav-link" data-section="youtube">YouTube</a>
+                <a href="#flashcards" class="nav-link" data-section="flashcards">Flashcards</a>
+                <a href="#chat" class="nav-link" data-section="chat">AI Chat</a>
+                <a href="#documents" class="nav-link" data-section="documents">Documents</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Transform Your Learning with AI</h1>
+                    <p>Summarize YouTube videos, create flashcards, chat with AI, and organize your study materials all in one place.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showSection('youtube')">
+                            <i class="fab fa-youtube"></i>
+                            Start with YouTube
+                        </button>
+                        <button class="btn btn-secondary" onclick="showSection('chat')">
+                            <i class="fas fa-robot"></i>
+                            Chat with AI
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="floating-card">
+                        <i class="fas fa-brain"></i>
+                        <span>AI-Powered</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <i class="fab fa-youtube"></i>
+                    <h3>YouTube Summarization</h3>
+                    <p>Paste any YouTube link and get AI-generated summaries and key points instantly.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>Smart Flashcards</h3>
+                    <p>Automatically generate flashcards from your content for effective studying.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>AI Study Assistant</h3>
+                    <p>Chat with our AI to get explanations, quiz yourself, and clarify concepts.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-file-upload"></i>
+                    <h3>Document Analysis</h3>
+                    <p>Upload PDFs, notes, and documents for AI-powered analysis and insights.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- YouTube Section -->
+        <section id="youtube" class="section">
+            <div class="section-header">
+                <h2><i class="fab fa-youtube"></i> YouTube Video Summarizer</h2>
+                <p>Paste a YouTube link to get an AI-generated summary and create flashcards</p>
+            </div>
+
+            <div class="youtube-input">
+                <div class="input-group">
+                    <input type="url" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." class="url-input">
+                    <button class="btn btn-primary" onclick="processYouTubeVideo()">
+                        <i class="fas fa-magic"></i>
+                        Summarize
+                    </button>
+                </div>
+            </div>
+
+            <div id="videoResult" class="video-result hidden">
+                <div class="video-info">
+                    <div class="video-thumbnail">
+                        <img id="videoThumbnail" src="/placeholder.svg" alt="Video thumbnail">
+                        <div class="play-overlay">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="video-details">
+                        <h3 id="videoTitle"></h3>
+                        <p id="videoChannel"></p>
+                        <span id="videoDuration" class="duration"></span>
+                    </div>
+                </div>
+
+                <div class="summary-content">
+                    <div class="summary-section">
+                        <h4><i class="fas fa-list-ul"></i> Key Points</h4>
+                        <ul id="keyPoints"></ul>
+                    </div>
+                    <div class="summary-section">
+                        <h4><i class="fas fa-align-left"></i> Summary</h4>
+                        <p id="videoSummary"></p>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="generateFlashcards()">
+                            <i class="fas fa-layer-group"></i>
+                            Create Flashcards
+                        </button>
+                        <button class="btn btn-outline" onclick="saveToLibrary()">
+                            <i class="fas fa-bookmark"></i>
+                            Save to Library
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading" id="youtubeLoading">
+                <div class="spinner"></div>
+                <p>Processing video with AI...</p>
+            </div>
+        </section>
+
+        <!-- Flashcards Section -->
+        <section id="flashcards" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-layer-group"></i> Flashcards</h2>
+                <p>Study with AI-generated flashcards from your content</p>
+            </div>
+
+            <div class="flashcard-controls">
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="startStudySession()">
+                        <i class="fas fa-play"></i>
+                        Start Study Session
+                    </button>
+                    <button class="btn btn-secondary" onclick="shuffleCards()">
+                        <i class="fas fa-random"></i>
+                        Shuffle
+                    </button>
+                </div>
+                <div class="progress-info">
+                    <span id="cardProgress">0 / 0</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-container" id="flashcardContainer">
+                <div class="flashcard" id="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-content">
+                                <h3>Click "Start Study Session" to begin</h3>
+                                <p>Your flashcards will appear here</p>
+                            </div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-content">
+                                <p>Answer will be shown here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-actions hidden" id="flashcardActions">
+                <button class="btn btn-outline" onclick="flipCard()">
+                    <i class="fas fa-sync-alt"></i>
+                    Flip Card
+                </button>
+                <button class="btn btn-success" onclick="markCorrect()">
+                    <i class="fas fa-check"></i>
+                    Correct
+                </button>
+                <button class="btn btn-danger" onclick="markIncorrect()">
+                    <i class="fas fa-times"></i>
+                    Incorrect
+                </button>
+                <button class="btn btn-secondary" onclick="nextCard()">
+                    <i class="fas fa-arrow-right"></i>
+                    Next
+                </button>
+            </div>
+        </section>
+
+        <!-- Chat Section -->
+        <section id="chat" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-robot"></i> AI Study Assistant</h2>
+                <p>Chat with AI to get explanations, quiz yourself, and clarify concepts</p>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Hello! I'm your AI study assistant. I can help you with:</p>
+                            <ul>
+                                <li>Explaining complex concepts</li>
+                                <li>Creating practice questions</li>
+                                <li>Reviewing your study materials</li>
+                                <li>Providing study tips and strategies</li>
+                            </ul>
+                            <p>What would you like to study today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" id="chatInput" placeholder="Ask me anything about your studies..." class="chat-text-input">
+                        <button class="btn btn-primary" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="quick-btn" onclick="sendQuickMessage('Explain quantum physics')">
+                    <i class="fas fa-atom"></i>
+                    Quantum Physics
+                </button>
+                <button class="quick-btn" onclick="sendQuickMessage('Create a math quiz')">
+                    <i class="fas fa-calculator"></i>
+                    Math Quiz
+                </button>
+                <button class="quick-btn" onclick="sendQuickMessage('Study tips for exams')">
+                    <i class="fas fa-lightbulb"></i>
+                    Study Tips
+                </button>
+                <button class="quick-btn" onclick="sendQuickMessage('Help with essay writing')">
+                    <i class="fas fa-pen"></i>
+                    Essay Help
+                </button>
+            </div>
+        </section>
+
+        <!-- Documents Section -->
+        <section id="documents" class="section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-upload"></i> Document Analysis</h2>
+                <p>Upload your study materials for AI-powered analysis and insights</p>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-content">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop files here or click to upload</h3>
+                    <p>Supports PDF, DOC, DOCX, TXT files up to 10MB</p>
+                    <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt" hidden>
+                    <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                        <i class="fas fa-plus"></i>
+                        Choose Files
+                    </button>
+                </div>
+            </div>
+
+            <div class="document-list" id="documentList">
+                <!-- Uploaded documents will appear here -->
+            </div>
+
+            <div class="document-actions">
+                <button class="btn btn-secondary" onclick="analyzeAllDocuments()">
+                    <i class="fas fa-search"></i>
+                    Analyze All Documents
+                </button>
+                <button class="btn btn-outline" onclick="generateDocumentSummary()">
+                    <i class="fas fa-file-alt"></i>
+                    Generate Summary
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Processing with AI...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

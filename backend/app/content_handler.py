@@ -3,7 +3,6 @@ from filter_url import filter_yt_url
 from youtube_transcript_api import YouTubeTranscriptApi as yt
 
 
-
 def get_transcript(link: str):
 
     link = filter_yt_url(link)
@@ -19,6 +18,7 @@ def get_transcript(link: str):
         
     except Exception as e:
         print(f"Could not get transcript: {e}")
+
 
 
 
