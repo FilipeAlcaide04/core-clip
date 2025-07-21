@@ -21,7 +21,7 @@ themeToggle.addEventListener("click", () => {
 })
 
 // Load saved theme
-const savedTheme = localStorage.getItem("theme") || "light"
+const savedTheme = localStorage.getItem("theme") || "dark"
 body.setAttribute("data-theme", savedTheme)
 if (savedTheme === "dark") {
   themeToggle.querySelector("i").className = "fas fa-sun"
